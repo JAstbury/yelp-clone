@@ -4,16 +4,8 @@ require_relative './feature_helper.rb'
 
 feature 'reviewing' do
 
-  before do
-    visit('/')
-    click_link('Sign up')
-    fill_in('Email', with: 'test@example.com')
-    fill_in('Password', with: 'testtest')
-    fill_in('Password confirmation', with: 'testtest')
-    click_button('Sign up')
-  end
-
   scenario 'allows user to leave a review using a form' do
+    sign_up
     create_restaurant
     visit '/restaurants'
     click_link 'Review KFC'
@@ -23,6 +15,16 @@ feature 'reviewing' do
 
     expect(current_path).to eq '/restaurants'
     expect(page).to have_content('so so')
+  end
+
+  scenario 'displays an average rating for all reviews' do
+    sign_up
+    create_restaurant
+    leave_review('So so', '3')
+    click_link 'Sign out'
+    another_sign_up
+    leave_review('Great', '5')
+    expect(page).to have_content('Average rating: 4')
   end
 
 end
