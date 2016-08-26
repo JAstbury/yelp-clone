@@ -35,6 +35,7 @@ gem 'omniauth-facebook'
 gem 'pry-rails'
 gem 'shoulda-matchers'
 gem 'paperclip'
+gem 'rails_12factor', group: :production
 
 
 
