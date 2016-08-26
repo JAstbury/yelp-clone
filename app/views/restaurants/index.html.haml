@@ -1,15 +1,22 @@
+
 - if @restaurants.any?
+  %div(class='row')
   - @restaurants.each do |restaurant|
-    %h2= link_to restaurant.name, restaurant_path(restaurant)
-    %h4= restaurant.description
-    %h3 Average rating: #{restaurant.average_rating.to_i}
-    - restaurant.reviews.each do |review|
-      %li=review.thoughts
-    %br= link_to "Edit #{restaurant.name}", edit_restaurant_path(restaurant)
-    = link_to "Delete #{restaurant.name}", restaurant_path(restaurant), method: :delete
-    - if current_user
-      - unless current_user.has_reviewed?(restaurant)
-        = link_to "Review #{restaurant.name}", new_restaurant_review_path(restaurant)
+    %div(id='restaurant' class="col-sm-6 col-md-4")
+      %h2= link_to restaurant.name, restaurant_path(restaurant)
+      = image_tag restaurant.image.url(:thumb)
+      %h4= restaurant.description
+      - if restaurant.average_rating.is_a? String
+        %h5 Average rating: N/A
+      - else
+        %h3 Average rating: #{restaurant.average_rating.round(1)}
+        = star_rating(restaurant.average_rating)
+      - if current_user
+        - if current_user.id === restaurant.user_id
+          %br= link_to "Edit #{restaurant.name}", edit_restaurant_path(restaurant)
+          = link_to "Delete #{restaurant.name}", restaurant_path(restaurant), method: :delete
+        - unless current_user.has_reviewed?(restaurant)
+          = link_to "Review #{restaurant.name}", new_restaurant_review_path(restaurant)
 
 - else
   %h1 No restaurants yet!

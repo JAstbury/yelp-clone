@@ -90,8 +90,7 @@ feature 'restaurants' do
       fill_in('Password confirmation', with: 'testtest1')
       click_button('Sign up')
       visit '/restaurants'
-      click_link 'Edit KFC'
-      expect(page).to have_content 'You did not create this restaurant, troll!'
+      expect(page).not_to have_content 'Edit KFC'
     end
 
   end

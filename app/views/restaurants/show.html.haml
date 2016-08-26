@@ -1,2 +1,12 @@
-%p= @restaurant.name
-%p= @restaurant.description
+
+%div(id='listing')
+  %h2= @restaurant.name
+  %h4= @restaurant.description
+
+  %h2 User Reviews...
+  - @restaurant.reviews.each do |review|
+    %li=review.thoughts
+  %br/
+  %br/ 
+
+  = link_to "Back to listings", restaurants_path
